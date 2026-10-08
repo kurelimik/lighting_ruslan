@@ -1,0 +1,313 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Калькулятор освещения</title>
+  <style>
+    :root{--ink:#243449;--muted:#647080;--paper:#f7f5f0;--white:#fff;--line:#dddeda;--accent:#b56d16;--soft:#fff4df;--danger:#a3352b;--green:#39634a;--radius:14px}
+    *{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font-family:Segoe UI,Arial,sans-serif;font-size:15px;line-height:1.55}
+    button,input{font:inherit}button{cursor:pointer}button:focus-visible,a:focus-visible{outline:3px solid #d39b4a;outline-offset:3px}input:focus{outline:2px solid #d39b4a;outline-offset:1px}
+    .wrap{max-width:1100px;margin:auto;padding:34px 28px 48px}.eyebrow{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:0 0 8px}h1{font-size:32px;line-height:1.2;letter-spacing:-.025em;margin:0 0 12px;font-weight:650}h2{font-size:20px;line-height:1.3;margin:0;font-weight:650}h3{font-size:16px;margin:0 0 8px}.intro{margin:0;color:var(--muted);max-width:760px}.header{margin-bottom:28px}.card{background:var(--white);border:1px solid var(--line);border-radius:var(--radius);padding:24px;margin-top:18px}.section-head{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:20px}.step{color:var(--accent);font-size:12px;font-weight:700;letter-spacing:.06em;margin-right:8px}.button{background:var(--ink);border:1px solid var(--ink);color:white;padding:9px 16px;border-radius:8px;font-weight:600;line-height:1.25;min-height:40px}.button:hover{background:#35475e}.secondary{background:white;color:var(--ink);border-color:#cbd0d6}.secondary:hover{background:#f2f3f4}.quiet{background:transparent;color:var(--ink);border-color:transparent;padding:6px 8px}.quiet:hover{background:#f2f3f4}.button:disabled{opacity:.45;cursor:not-allowed}.toolbar{display:flex;flex-wrap:wrap;gap:8px}.control-grid{display:grid;grid-template-columns:1.1fr 1fr;gap:28px}.field label,.room-field label{display:block;font-size:12px;font-weight:600;color:var(--muted);margin-bottom:6px}.input-unit{display:flex;align-items:center;border:1px solid #cbd0d6;border-radius:7px;background:white;overflow:hidden}.input-unit input{min-width:0;flex:1;width:100%;padding:9px 10px;color:var(--ink);border:0;background:transparent}.input-unit span{font-size:12px;color:var(--muted);padding:0 10px 0 2px;white-space:nowrap}.input-unit:focus-within{outline:2px solid #d39b4a;outline-offset:1px}.input-unit input:focus{outline:none}.input-unit.invalid{border-color:var(--danger);background:#fff6f5}.help{font-size:12px;color:var(--muted);margin:9px 0 0}.help a{color:#8b551b;text-underline-offset:3px}.periods{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}.periods button{font-size:12px;border:1px solid #d4d7db;border-radius:6px;background:#fff;color:var(--ink);padding:5px 10px}.periods button.active{background:var(--soft);border-color:#d9b779;color:#81500f}.rooms{display:grid;gap:14px}.room{border:1px solid var(--line);border-radius:10px;padding:16px;background:#fcfcfb}.room-heading{display:flex;align-items:center;gap:8px;margin-bottom:14px}.room-heading .name{font-weight:600;color:var(--ink);border:0;border-bottom:1px solid transparent;padding:4px 0;background:transparent;flex:1;min-width:0}.room-heading .name:hover{border-bottom-color:#cbd0d6}.remove{font-size:12px;color:var(--muted);padding:5px 8px;border:0;background:transparent;border-radius:6px;white-space:nowrap}.remove:hover{background:#f3e9e7;color:var(--danger)}.remove:disabled{opacity:.4;cursor:not-allowed}.room-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:16px}.room-foot{margin-top:12px;font-size:12px;color:var(--muted);display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}.add-row{margin-top:16px}.hint{font-size:12px;color:var(--muted);margin:14px 0 0}.error{background:#fff2ef;border:1px solid #e9bdb7;color:var(--danger);border-radius:10px;padding:14px 16px;margin:18px 0}.error ul{margin:4px 0 0;padding-left:20px}.error p{margin:0;font-weight:600}.hidden{display:none!important}.results{scroll-margin-top:20px}.result-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:20px}.stat{padding:18px 20px;background:#f4f5f5;border-radius:10px}.stat.savings{background:var(--soft)}.stat .label{font-size:12px;font-weight:600;color:var(--muted);margin-bottom:7px}.stat .value{font-size:29px;letter-spacing:-.035em;font-weight:650;line-height:1.25;font-variant-numeric:tabular-nums;white-space:nowrap}.stat .detail{font-size:12px;color:var(--muted);margin-top:8px}.stat.savings .value{color:#81500f}.comparison-note{font-size:13px;color:var(--muted);margin:16px 0 0}.warning{background:#fff7e8;border-left:3px solid #c99445;padding:10px 12px;font-size:13px;margin-top:14px}.negative .value{color:var(--danger)!important}.table-wrap{overflow-x:auto;margin-top:22px}table{border-collapse:collapse;width:100%;font-size:13px;font-variant-numeric:tabular-nums}th{text-align:right;color:var(--muted);font-size:11px;font-weight:600;line-height:1.4;white-space:nowrap;border-bottom:1px solid var(--line);padding:10px 12px}th:first-child,td:first-child{text-align:left}td{text-align:right;white-space:nowrap;padding:11px 12px;border-bottom:1px solid #eceeea}tfoot td{font-weight:650;background:#f9f9f7;border-bottom:0}td:first-child{white-space:normal;min-width:125px;max-width:250px}.formula-layout{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:18px}.formula{background:#f4f5f5;border-radius:8px;padding:14px 16px;font-family:Georgia,serif;font-size:18px}.formula small{display:block;font-family:Segoe UI,Arial,sans-serif;font-size:12px;color:var(--muted);margin-top:6px}.explain p{margin:10px 0;font-size:13px;color:var(--muted)}.explain ul{margin:12px 0 0;padding-left:18px;font-size:13px;color:var(--muted)}.explain li{margin:6px 0}.footer{margin-top:24px;color:var(--muted);font-size:12px}.print-context{display:none}.empty-result{font-size:14px;color:var(--muted);margin-top:20px}.result-period{font-size:12px;color:var(--muted);margin:4px 0 0}.mono{font-variant-numeric:tabular-nums}.small{font-size:12px;color:var(--muted)}
+    @media(max-width:750px){.wrap{padding:24px 16px 36px}h1{font-size:28px}.card{padding:18px}.control-grid{grid-template-columns:1fr;gap:20px}.room-grid{grid-template-columns:1fr 1fr;gap:12px}.result-grid{grid-template-columns:1fr}.stat{display:grid;grid-template-columns:1fr auto;gap:4px 12px}.stat .label{margin:0;align-self:center}.stat .value{font-size:25px}.stat .detail{margin:0;grid-column:1/-1}.formula-layout{grid-template-columns:1fr;gap:12px}.section-head{align-items:flex-start;flex-wrap:wrap}.toolbar .button{font-size:12px}.room{padding:14px}.section-head{gap:12px}}
+    @media print{@page{size:A4;margin:16mm}body{background:white;font-size:10pt}.wrap{max-width:none;padding:0}h1{font-size:20pt}.eyebrow{font-size:8pt}.header{margin-bottom:14px}.card{border:1px solid #bbb;border-radius:0;padding:14px;margin-top:12px;break-inside:avoid}.no-print,.room-heading .remove,.periods,.add-row{display:none!important}.card.input-card{display:none}.print-context{display:block;margin:14px 0}.result-grid{gap:8px;margin-top:12px}.stat{padding:10px;background:#f4f4f4!important;print-color-adjust:exact}.stat .value{font-size:20pt}.table-wrap{overflow:visible}table{font-size:8pt;table-layout:fixed}th{font-size:7.5pt}th,td{padding:7px 5px;white-space:normal;overflow-wrap:anywhere}td:first-child{min-width:0;max-width:none}th:first-child{width:22%}.formula-layout{gap:16px}.explain li{margin:3px 0}.footer{margin-top:12px}.warning{font-size:9pt}.formula{font-size:13pt}.results{margin-top:0}.error{break-inside:avoid}.result-actions{display:none!important}}
+  </style>
+</head>
+<body>
+<main class="wrap">
+  <header class="header">
+    <p class="eyebrow">Индивидуальный проект · 10 класс</p>
+    <h1>Калькулятор освещения</h1>
+    <p class="intro">Посчитайте, сколько электроэнергии расходуют лампы, и сравните два варианта освещения, меняя мощность и время работы.</p>
+  </header>
+
+  <section class="card input-card" aria-labelledby="settings-heading">
+    <div class="section-head"><h2 id="settings-heading"><span class="step">01</span> Период и тариф</h2></div>
+    <div class="control-grid">
+      <div class="field"><label for="days">Количество дней</label><div class="input-unit"><input id="days" type="text" inputmode="numeric" value="30" autocomplete="off"><span>дней</span></div><div class="periods"><button type="button" data-days="7">Неделя · 7</button><button type="button" data-days="30" class="active">30 дней</button><button type="button" data-days="365">Год · 365</button></div><p class="help">Для конкретного месяца введите 28, 29, 30 или 31 день. Год считается как 365 дней.</p></div>
+      <div class="field"><label for="tariff">Стоимость 1 кВт·ч</label><div class="input-unit"><input id="tariff" type="text" inputmode="decimal" value="8,31" autocomplete="off"><span>₽/кВт·ч</span></div><p class="help">Краснодар: 8,31 ₽/кВт·ч — пример для одноставочного тарифа первого диапазона, 01.10–31.12.2026. Проверьте категорию и тариф в своей квитанции. <a href="https://www.nesk.ru/tarify-na-elektroenergiu/tarify-2026-god.php" target="_blank" rel="noopener">Источник: НЭСК</a>.</p></div>
+    </div>
+  </section>
+
+  <section class="card input-card" aria-labelledby="lamps-heading">
+    <div class="section-head"><h2 id="lamps-heading"><span class="step">02</span> Лампы и время работы</h2><div class="toolbar"><button class="button secondary" id="one-room" type="button">Одна комната</button><button class="button secondary" id="three-rooms" type="button">Пример с тремя комнатами</button><button class="button secondary" id="home-example" type="button">Пример дома · 7 помещений</button></div></div>
+    <p class="hint" style="margin:0 0 16px">Примеры содержат принятые значения: замените их данными своих ламп и расписания.</p>
+    <div class="rooms" id="rooms"></div>
+    <button class="button secondary add-row" id="add-room" type="button">+ Добавить помещение</button>
+    <p class="hint">Укажите мощность одной лампы по маркировке. Часы — среднее время работы этой группы за сутки. Если лампы в комнате работают по-разному, добавьте отдельные группы.</p>
+    <p class="hint">Во втором варианте можно изменить мощность, расписание или оба значения. Уменьшайте время только тогда, когда свет действительно не нужен.</p>
+    <p class="hint">Для сравнения с LED введите мощность выбранной лампы. Равную яркость проверяют по световому потоку в люменах: одна только мощность её не определяет.</p>
+  </section>
+
+  <div id="errors" class="error hidden" role="alert" aria-live="polite"></div>
+
+  <section class="card results" aria-labelledby="results-heading">
+    <div class="section-head"><div><h2 id="results-heading"><span class="step">03</span> Результат</h2><p class="result-period" id="result-period"></p></div><div class="toolbar result-actions"><button class="button secondary" id="csv" type="button">Скачать таблицу</button><button class="button" id="print" type="button">Печать / PDF</button></div></div>
+    <div class="print-context" id="print-context"></div>
+    <div id="summary"></div>
+  </section>
+
+  <section class="card explain" aria-labelledby="how-heading">
+    <h2 id="how-heading">Как устроен расчёт</h2>
+    <div class="formula-layout">
+      <div><div class="formula">E = n × P × h × d / 1000<small>Расход электроэнергии, кВт·ч</small></div><p><b>n</b> — число ламп, <b>P</b> — мощность одной лампы в ваттах, <b>h</b> — часов работы в сутки, <b>d</b> — дней. Деление на 1000 переводит ватт-часы в киловатт-часы.</p></div>
+      <div><div class="formula">C = E × T<small>Стоимость, ₽</small></div><p><b>T</b> — цена одного кВт·ч. Калькулятор считает каждую группу отдельно, затем складывает расход и стоимость. Разница стоимости — исходный вариант минус вариант для сравнения.</p></div>
+    </div>
+    <ul><li>Расчёт учитывает только указанные лампы. Холодильник, плита, компьютер и другие приборы сюда не входят.</li><li>Используется один постоянный тариф. Диапазоны общего потребления жилья и разные дневные/ночные тарифы отдельно не учитываются.</li><li>Результат — оценка при заданном времени работы. Он не заменяет показания счётчика и квитанцию.</li><li>В демонстрационном примере 60 Вт и 9 Вт — выбранные мощности. Это не доказательство одинаковой яркости конкретных ламп.</li></ul>
+  </section>
+  <footer class="footer">Калькулятор работает в браузере без установки. Для расчёта подключение к интернету не требуется. Введённые значения не отправляются на сервер; после закрытия страницы они не сохраняются.</footer>
+</main>
+
+<template id="room-template">
+  <div class="room">
+    <div class="room-heading"><input class="name" type="text" maxlength="80" aria-label="Название помещения" autocomplete="off"><button class="remove" type="button" aria-label="Удалить помещение">Удалить</button></div>
+    <div class="room-grid">
+      <div class="room-field"><label>Количество ламп</label><div class="input-unit"><input data-field="quantity" type="text" inputmode="numeric" autocomplete="off"><span>шт.</span></div></div>
+      <div class="room-field"><label>Исходная мощность</label><div class="input-unit"><input data-field="power" type="text" inputmode="decimal" autocomplete="off"><span>Вт</span></div></div>
+      <div class="room-field"><label>Мощность для сравнения</label><div class="input-unit"><input data-field="replacementPower" type="text" inputmode="decimal" autocomplete="off"><span>Вт</span></div></div>
+      <div class="room-field"><label>Исходное время работы</label><div class="input-unit"><input data-field="hours" type="text" inputmode="decimal" autocomplete="off"><span>ч/сут.</span></div></div>
+      <div class="room-field"><label>Время для сравнения</label><div class="input-unit"><input data-field="replacementHours" type="text" inputmode="decimal" autocomplete="off"><span>ч/сут.</span></div></div>
+    </div>
+    <div class="room-foot"><span class="room-result"></span><span class="room-comparison"></span></div>
+  </div>
+</template>
+<script>
+(function (root) {
+  'use strict';
+  const limits = {
+    quantity: { min: 0, max: 1000, integer: true, label: 'Количество ламп' },
+    power: { min: 0, max: 10000, label: 'Мощность одной лампы' },
+    replacementPower: { min: 0, max: 10000, label: 'Мощность лампы для сравнения' },
+    hours: { min: 0, max: 24, label: 'Часов в сутки' },
+    replacementHours: { min: 0, max: 24, label: 'Время для сравнения' },
+    days: { min: 1, max: 366, integer: true, label: 'Количество дней' },
+    tariff: { min: 0, max: 1000, label: 'Тариф' }
+  };
+
+  function parseNumber(value, field) {
+    const rule = limits[field];
+    if (!rule) throw new Error('Неизвестное поле: ' + field);
+    if (value === null || value === undefined || typeof value === 'boolean') {
+      throw new Error(rule.label + ': введите число.');
+    }
+    let number;
+    if (typeof value === 'number') number = value;
+    else if (typeof value === 'string') {
+      const normalized = value.trim().replace(/\s+/g, '').replace(',', '.');
+      if (!/^[+-]?(?:\d+(?:\.\d*)?|\.\d+)$/.test(normalized)) {
+        throw new Error(rule.label + ': введите число, например ' + (rule.integer ? '7' : '7,00') + '.');
+      }
+      number = Number(normalized);
+    } else throw new Error(rule.label + ': введите число.');
+    if (!Number.isFinite(number)) throw new Error(rule.label + ': требуется конечное число.');
+    if (number < rule.min || number > rule.max) {
+      throw new Error(rule.label + ': допустимо от ' + rule.min + ' до ' + rule.max + '.');
+    }
+    if (rule.integer && !Number.isInteger(number)) {
+      throw new Error(rule.label + ': требуется целое число.');
+    }
+    return number;
+  }
+
+  function validate(input) {
+    const errors = [];
+    const data = { rooms: [] };
+    ['tariff', 'days'].forEach(field => {
+      try { data[field] = parseNumber(input && input[field], field); }
+      catch (error) { errors.push({ field, row: null, message: error.message }); }
+    });
+    if (!input || !Array.isArray(input.rooms) || input.rooms.length === 0) {
+      errors.push({ field: 'rooms', row: null, message: 'Добавьте хотя бы одну комнату.' });
+    } else {
+      input.rooms.forEach((room, row) => {
+        const clean = { name: String((room && room.name) || '').trim() || 'Комната ' + (row + 1) };
+        ['quantity', 'power', 'replacementPower', 'hours', 'replacementHours'].forEach(field => {
+          const value = field === 'replacementHours' && room && room[field] === undefined ? room.hours : room && room[field];
+          try { clean[field] = parseNumber(value, field); }
+          catch (error) { errors.push({ field, row, message: clean.name + '. ' + error.message }); }
+        });
+        data.rooms.push(clean);
+      });
+    }
+    return { valid: errors.length === 0, errors, data };
+  }
+
+  function calculate(input) {
+    const checked = validate(input);
+    if (!checked.valid) return { valid: false, errors: checked.errors, rows: [], total: null };
+    const data = checked.data;
+    const rows = data.rooms.map(room => {
+      const energy = room.quantity * room.power * room.hours * data.days / 1000;
+      const replacementEnergy = room.quantity * room.replacementPower * room.replacementHours * data.days / 1000;
+      const cost = energy * data.tariff;
+      const replacementCost = replacementEnergy * data.tariff;
+      return Object.assign({}, room, { energy, replacementEnergy, cost, replacementCost, savings: cost - replacementCost });
+    });
+    const total = rows.reduce((acc, row) => {
+      ['energy', 'replacementEnergy', 'cost', 'replacementCost', 'savings'].forEach(field => { acc[field] += row[field]; });
+      return acc;
+    }, { energy: 0, replacementEnergy: 0, cost: 0, replacementCost: 0, savings: 0 });
+    total.savingsPercent = total.energy > 0 ? (total.energy - total.replacementEnergy) / total.energy * 100 : null;
+    return { valid: true, errors: [], tariff: data.tariff, days: data.days, rows, total };
+  }
+
+  function roundMoney(value) {
+    if (!Number.isFinite(value)) throw new Error('Стоимость должна быть конечным числом.');
+    const magnitude = Math.abs(value);
+    return Math.sign(value) * Math.round((magnitude + Number.EPSILON * Math.max(1, magnitude)) * 100) / 100;
+  }
+
+  function csv(result) {
+    if (!result || !result.valid) throw new Error('Сначала исправьте данные расчёта.');
+    const quote = value => '"' + String(value).replace(/"/g, '""') + '"';
+    const decimal = value => String(Math.round((value + Number.EPSILON) * 1000000) / 1000000).replace('.', ',');
+    const money = value => roundMoney(value).toFixed(2).replace('.', ',');
+    const lines = [
+      ['Расчёт расхода электроэнергии на освещение'],
+      ['Дней', result.days, 'Тариф, руб./кВт·ч', money(result.tariff)],
+      ['Помещение', 'Количество ламп', 'Исходная мощность, Вт', 'Мощность для сравнения, Вт', 'Исходное время, ч/сут.', 'Время для сравнения, ч/сут.', 'Исходный расход, кВт·ч', 'Расход для сравнения, кВт·ч', 'Исходная стоимость, руб.', 'Стоимость для сравнения, руб.', 'Разница стоимости, руб.'],
+      ...result.rows.map(row => [row.name, row.quantity, decimal(row.power), decimal(row.replacementPower), decimal(row.hours), decimal(row.replacementHours), decimal(row.energy), decimal(row.replacementEnergy), money(row.cost), money(row.replacementCost), money(row.savings)]),
+      ['ИТОГО', '', '', '', '', '', decimal(result.total.energy), decimal(result.total.replacementEnergy), money(result.total.cost), money(result.total.replacementCost), money(result.total.savings)],
+      ['Количество ламп, число дней и тариф одинаковы. Мощность и время работы могут различаться; световой поток проверяется отдельно.'],
+      ['Учтено только освещение и один тариф. Фактические затраты зависят от реального времени работы.']
+    ];
+    return '\uFEFF' + lines.map(line => line.map(quote).join(';')).join('\r\n') + '\r\n';
+  }
+  const api = { parseNumber, validate, calculate, roundMoney, csv, limits };
+  if (typeof module !== 'undefined' && module.exports) module.exports = api;
+  else root.LightingCalculator = api;
+})(typeof globalThis !== 'undefined' ? globalThis : this);
+</script>
+<script>
+(function () {
+  'use strict';
+  const $ = selector => document.querySelector(selector);
+  const $$ = selector => Array.from(document.querySelectorAll(selector));
+  const api = window.LightingCalculator;
+  const ru = (value, digits = 2) => new Intl.NumberFormat('ru-RU', { maximumFractionDigits: digits, minimumFractionDigits: 0 }).format(Math.abs(value) < 0.0000001 ? 0 : value);
+  const money = value => new Intl.NumberFormat('ru-RU', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(Math.abs(value) < 0.0000001 ? 0 : api.roundMoney(value));
+  const rub = value => new Intl.NumberFormat('ru-RU', { style: 'currency', currency: 'RUB', minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(Math.abs(value) < 0.0000001 ? 0 : api.roundMoney(value));
+  let result = null;
+  let rowId = 0;
+  const main = { name: 'Комната', quantity: 5, power: 60, replacementPower: 9, hours: 5, replacementHours: 5 };
+  const kitchen = { name: 'Кухня', quantity: 3, power: 40, replacementPower: 7, hours: 4, replacementHours: 4 };
+  const corridor = { name: 'Коридор', quantity: 2, power: 40, replacementPower: 6, hours: 2, replacementHours: 2 };
+  const homeRooms = [
+    { name: 'Комната 1', quantity: 5, power: 9, replacementPower: 9, hours: 5, replacementHours: 5 },
+    { name: 'Комната 2', quantity: 3, power: 9, replacementPower: 9, hours: 3, replacementHours: 3 },
+    { name: 'Комната 3', quantity: 2, power: 12, replacementPower: 12, hours: 4, replacementHours: 4 },
+    { name: 'Комната 4', quantity: 2, power: 9, replacementPower: 9, hours: 3, replacementHours: 3 },
+    { name: 'Комната 5', quantity: 1, power: 12, replacementPower: 12, hours: 2, replacementHours: 2 },
+    { name: 'Холл', quantity: 3, power: 7, replacementPower: 7, hours: 4, replacementHours: 3 },
+    { name: 'Кухня', quantity: 3, power: 9, replacementPower: 9, hours: 5, replacementHours: 4 }
+  ];
+
+  function appendRoom(data) {
+    const room = $('#room-template').content.firstElementChild.cloneNode(true);
+    roomId = ++rowId;
+    room.querySelector('.name').value = data.name || '';
+    room.querySelectorAll('[data-field]').forEach(input => {
+      const field = input.dataset.field;
+      const value = field === 'replacementHours' && data[field] === undefined ? data.hours : data[field];
+      input.value = String(value).replace('.', ',');
+      input.id = 'room-' + roomId + '-' + field;
+      input.closest('.room-field').querySelector('label').htmlFor = input.id;
+    });
+    room.querySelector('.remove').addEventListener('click', () => {
+      if ($$('.room').length > 1) { room.remove(); update(); }
+    });
+    $('#rooms').append(room);
+    return room;
+  }
+  let roomId;
+
+  function loadPreset(rooms) {
+    $('#rooms').replaceChildren();
+    rooms.forEach(appendRoom);
+    update();
+  }
+
+  function inputData() {
+    return { tariff: $('#tariff').value, days: $('#days').value, rooms: $$('.room').map(room => {
+      const data = { name: room.querySelector('.name').value };
+      room.querySelectorAll('[data-field]').forEach(input => { data[input.dataset.field] = input.value; });
+      return data;
+    }) };
+  }
+
+  function cell(parent, tag, value) { const node = document.createElement(tag); node.textContent = value; parent.append(node); return node; }
+  function stat(label, value, detail, kind) {
+    const card = document.createElement('div');card.className = 'stat' + (kind ? ' ' + kind : '');
+    cell(card, 'div', label).className = 'label';cell(card, 'div', value).className = 'value';cell(card, 'div', detail).className = 'detail';return card;
+  }
+
+  function update() {
+    const rooms = $$('.room');
+    result = api.calculate(inputData());
+    $$('.input-unit.invalid').forEach(node => node.classList.remove('invalid'));
+    $$('input[aria-invalid]').forEach(node => node.removeAttribute('aria-invalid'));
+    rooms.forEach(room => { room.querySelector('.remove').disabled = rooms.length === 1; room.querySelector('.room-result').textContent = ''; room.querySelector('.room-comparison').textContent = ''; });
+    $$('.periods button').forEach(button => button.classList.toggle('active', String(Number($('#days').value)) === button.dataset.days));
+    $('#csv').disabled = !result.valid;$('#print').disabled = !result.valid;
+    $('#summary').replaceChildren();$('#print-context').replaceChildren();$('#result-period').textContent = '';
+    $('#errors').replaceChildren();$('#errors').classList.toggle('hidden', result.valid);
+    if (!result.valid) {
+      cell($('#errors'), 'p', 'Исправьте значения, чтобы получить расчёт.');
+      const list = document.createElement('ul');$('#errors').append(list);
+      result.errors.forEach(error => {
+        cell(list, 'li', error.message);
+        const input = error.row === null ? document.getElementById(error.field) : rooms[error.row]?.querySelector('[data-field="' + error.field + '"]');
+        if (input) { input.setAttribute('aria-invalid', 'true');input.closest('.input-unit')?.classList.add('invalid'); }
+      });
+      cell($('#summary'), 'p', 'Результат появится после исправления данных.').className = 'empty-result';
+      return;
+    }
+    const total = result.total;
+    $('#result-period').textContent = 'За ' + ru(result.days, 0) + ' дней · тариф ' + rub(result.tariff) + ' за кВт·ч';
+    $('#print-context').textContent = 'Количество ламп, число дней и тариф общие. Мощность и часы показаны для исходного варианта и варианта для сравнения; мощность указана для одной лампы.';
+    const grid = document.createElement('div');grid.className = 'result-grid';$('#summary').append(grid);
+    grid.append(stat('Исходное освещение', rub(total.cost), ru(total.energy, 4) + ' кВт·ч за выбранный период'));
+    grid.append(stat('Вариант для сравнения', rub(total.replacementCost), ru(total.replacementEnergy, 4) + ' кВт·ч за выбранный период'));
+    const isIncrease = total.savings < -0.0000001;
+    const differenceLabel = isIncrease ? 'Увеличение затрат' : 'Снижение затрат';
+    let differenceDetail = total.savingsPercent === null ? 'Процент не определяется: исходный расход равен нулю.' : (total.savingsPercent < 0 ? 'Расход выше на ' : 'Расход ниже на ') + ru(Math.abs(total.savingsPercent), 2) + '%.';
+    if (result.tariff === 0) differenceDetail = 'Тариф равен нулю. ' + differenceDetail;
+    grid.append(stat(differenceLabel, rub(Math.abs(total.savings)), differenceDetail, 'savings' + (isIncrease ? ' negative' : '')));
+    const note = cell($('#summary'), 'p', 'Количество ламп, число дней и тариф одинаковы. Для сравнения можно изменить мощность, время работы или оба значения.');note.className = 'comparison-note';
+    if (result.rows.some(row => row.replacementPower === 0 && row.quantity > 0 && row.hours > 0 && row.power > 0)) {
+      cell($('#summary'), 'div', 'Мощность для сравнения 0 Вт означает отсутствие расхода на эту группу. Такой вариант нельзя считать равноценной заменой освещения.').className = 'warning';
+    }
+    if (isIncrease) cell($('#summary'), 'div', 'При введённых мощностях и времени работы вариант для сравнения потребляет больше электроэнергии. Увеличение затрат не является экономией.').className = 'warning';
+    if (result.days >= 365) cell($('#summary'), 'div', 'Годовой результат — условная оценка при постоянном введённом тарифе. Он не прогнозирует изменение тарифов в течение года.').className = 'warning';
+    const tableWrap = document.createElement('div');tableWrap.className = 'table-wrap';$('#summary').append(tableWrap);
+    const table = document.createElement('table');table.setAttribute('aria-label', 'Расход и стоимость по помещениям');tableWrap.append(table);
+    const thead = document.createElement('thead');table.append(thead);const head = document.createElement('tr');thead.append(head);
+    ['Помещение / группа', 'Ламп', 'Мощность, Вт\nисходная / сравнение', 'ч/сут.\nисходные / сравнение', 'кВт·ч\nисходные / сравнение', '₽\nисходные / сравнение', 'Разница, ₽'].forEach(text => cell(head, 'th', text));
+    const tbody = document.createElement('tbody');table.append(tbody);
+    result.rows.forEach((row, index) => {
+      const tr = document.createElement('tr');tbody.append(tr);
+      [row.name, ru(row.quantity, 0), ru(row.power, 3) + ' / ' + ru(row.replacementPower, 3), ru(row.hours, 3) + ' / ' + ru(row.replacementHours, 3), ru(row.energy, 4) + ' / ' + ru(row.replacementEnergy, 4), money(row.cost) + ' / ' + money(row.replacementCost), money(row.savings)].forEach(text => cell(tr, 'td', text));
+      rooms[index].querySelector('.room-result').textContent = 'Исходный расход: ' + ru(row.energy, 4) + ' кВт·ч · ' + rub(row.cost);
+      rooms[index].querySelector('.room-comparison').textContent = 'Для сравнения: ' + ru(row.replacementEnergy, 4) + ' кВт·ч · ' + rub(row.replacementCost);
+    });
+    const foot = document.createElement('tfoot');table.append(foot);const tr = document.createElement('tr');foot.append(tr);
+    ['Итого', '', '', '', ru(total.energy, 4) + ' / ' + ru(total.replacementEnergy, 4), money(total.cost) + ' / ' + money(total.replacementCost), money(total.savings)].forEach(text => cell(tr, 'td', text));
+  }
+
+  $('#days').addEventListener('input', update);$('#tariff').addEventListener('input', update);$('#rooms').addEventListener('input', update);
+  $$('.periods button').forEach(button => button.addEventListener('click', () => { $('#days').value = button.dataset.days;update(); }));
+  $('#one-room').addEventListener('click', () => loadPreset([main]));
+  $('#three-rooms').addEventListener('click', () => loadPreset([main, kitchen, corridor]));
+  $('#home-example').addEventListener('click', () => { $('#days').value = '30';$('#tariff').value = '8,31';loadPreset(homeRooms); });
+  $('#add-room').addEventListener('click', () => { const row = appendRoom({ name: 'Группа ' + ($$('.room').length + 1), quantity: 1, power: 10, replacementPower: 7, hours: 3, replacementHours: 3 });update();row.querySelector('.name').focus();row.querySelector('.name').select(); });
+  $('#print').addEventListener('click', () => { if (result.valid) window.print(); });
+  $('#csv').addEventListener('click', () => {
+    if (!result.valid) return;
+    const blob = new Blob([api.csv(result)], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);const link = document.createElement('a');link.href = url;link.download = 'Освещение-' + result.days + '-дней.csv';document.body.append(link);link.click();link.remove();setTimeout(() => URL.revokeObjectURL(url), 1000);
+  });
+  loadPreset([main]);
+})();
+</script>
+</body>
+</html>
